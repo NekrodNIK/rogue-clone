@@ -1,1 +1,29 @@
-smth
+classDiagram
+    Entry *-- Controller
+    Entry *-- View
+    Entry *-- Model
+    View <-- Model
+    Model <-- Controller
+    Action .. Model
+    Action .. Controller
+    Key .. Controller
+    State .. View
+    State .. Model
+    class Model{
+        +run(void)
+        +apply_action(Action action)
+    }
+    class View{
+        +redraw(State state)
+    }
+    class Controller {
+        -process_key(Key key)
+    }
+
+    class Action
+    <<Abstract>> Action
+    class State
+    <<Abstract>> State
+    class Key
+    <<Abstract>> Key
+
