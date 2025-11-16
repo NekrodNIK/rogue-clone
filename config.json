@@ -1,4 +1,7 @@
 {
-  "theme": "forest",
-  "layout": "elk"
+    "theme": "forest",
+    "layout": "elk",
+    "class": {
+      "hideEmptyMembersBox": true
+    }
 }

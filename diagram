@@ -26,3 +26,80 @@ classDiagram
     <<Abstract>> Effect
     class Key
     <<Abstract>> Key
+
+    Model .. Room
+    Model .. Level
+    Model .. Enemy
+    Model .. GameResult
+    Model .. Inventory
+
+    %% ACTIONS
+    Action <|-- ActionMove
+    Action <|-- ActionHit
+    Action <|-- ActionOpenInventory
+
+    ActionMove *-- Direction
+    ActionHit *-- Direction
+
+    class ActionMove {
+        +Direction direction
+    }
+
+    class ActionHit {
+        +Direction direction
+    }
+
+    %% EFFECTS
+    Effect <|-- EffectClear
+    Effect <|-- EffectMovePlayer
+    Effect <|-- EffectMoveEnemy
+    Effect <|-- EffectLoadLevel
+    Effect <|-- EffectShowRoom
+    Effect <|-- EffectShow
+    Effect <|-- EffectGameOver
+
+    EffectMovePlayer *-- Direction
+    EffectSpawnEnemy *-- Enemy
+    EffectMoveEveny *-- Enemy
+    EffectMoveEveny *-- Direction
+    EffectLoadLevel *-- Level
+    EffectShowRoom *-- Room
+    EffectGameOver *-- GameResult
+    EffectShowInventory *-- Inventory
+
+    class EffectMovePlayer {
+        +direction
+    }
+    
+    class EffectSpawnEnemy {
+        +Enemy enemy
+    }
+    
+    class EffectMoveEnemy {
+        +Enemy enemy
+        +direction
+    }
+
+    class EffectLoadLevel {
+        +Level rooms
+    }
+
+    class EffectShowRoom {
+        +Room room
+    }
+
+    class EffectShow {
+        +Int x
+        +Int y
+    }
+
+    class EffectGameOver {
+        +GameResult result
+    }
+    
+    class EffectShowInventory {
+        +Inventory inventory
+    }
+        
+
+    
