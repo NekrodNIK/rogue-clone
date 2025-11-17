@@ -27,11 +27,57 @@ classDiagram
     class Key
     <<Abstract>> Key
 
-    Model .. Room
+    %% MODEL
+
+    Model .. Structure
     Model .. Level
-    Model .. Enemy
+    Model .. Entity
     Model .. GameResult
-    Model .. Inventory
+    Model .. Item
+
+    Structure <|-- Room
+    Structure <|-- Corridor
+    Structure <|-- CompundStructure
+    Structure <|-- StructureView
+    Level .. Structure
+    Level .. StructureView
+    Structure .. Entity
+
+    Entity <|-- TickEntity
+    TickEntity <|-- Player
+    TickEntity <|-- Enemy
+    Entity <|-- TileEntity
+
+    TileEntity <|-- ItemEntity
+    ItemEntity .. Item
+
+    TileEntity <|-- ExitEntity
+    ExitEntity .. Level
+
+    TileEntity <|-- TrapEntity
+    TrapEntity .. TickEntity
+
+    class Entity {
+      +get_coordinates()
+    }
+
+    class TickEntity {
+      +hurt()
+    }
+
+    Player .. Inventory
+    Inventory .. Item
+    Item <|-- Weapon
+    Item <|-- Armour
+    Item <|-- Potion
+    Item <|-- Food
+    Item <|-- Currency
+    Item <|-- Curio
+
+    class Item {
+      +use()
+    }
+
 
     %% ACTIONS
     Action <|-- ActionMove
@@ -51,41 +97,36 @@ classDiagram
 
     %% EFFECTS
     Effect <|-- EffectClear
-    Effect <|-- EffectMovePlayer
-    Effect <|-- EffectMoveEnemy
+    Effect <|-- EffectMoveEntity
     Effect <|-- EffectLoadLevel
-    Effect <|-- EffectShowRoom
+    Effect <|-- EffectShowStructure
     Effect <|-- EffectShow
     Effect <|-- EffectGameOver
+    Effect <|-- EffectSpawnEntity
 
-    EffectMovePlayer *-- Direction
-    EffectSpawnEnemy *-- Enemy
-    EffectMoveEveny *-- Enemy
-    EffectMoveEveny *-- Direction
+    EffectSpawnEntity *-- Entity
+    EffectMoveEntity *-- Entity
+    EffectMoveEntity *-- Direction
     EffectLoadLevel *-- Level
-    EffectShowRoom *-- Room
+    EffectShowStructure *-- Structure
     EffectGameOver *-- GameResult
     EffectShowInventory *-- Inventory
 
-    class EffectMovePlayer {
-        +direction
+    class EffectSpawnEntity {
+        +Entity entity
     }
     
-    class EffectSpawnEnemy {
-        +Enemy enemy
-    }
-    
-    class EffectMoveEnemy {
-        +Enemy enemy
+    class EffectMoveEntity {
+        +Entityy entity
         +direction
     }
 
     class EffectLoadLevel {
-        +Level rooms
+        +Level structures
     }
 
-    class EffectShowRoom {
-        +Room room
+    class EffectShowStructure {
+        +Room structure
     }
 
     class EffectShow {
@@ -100,6 +141,3 @@ classDiagram
     class EffectShowInventory {
         +Inventory inventory
     }
-        
-
-    
