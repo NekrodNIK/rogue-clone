@@ -32,7 +32,6 @@ classDiagram
     Model .. Structure
     Model .. Level
     Model .. Entity
-    Model .. GameResult
     Model .. Item
 
     Structure <|-- Room
@@ -102,7 +101,6 @@ classDiagram
     Effect <|-- EffectLoadLevel
     Effect <|-- EffectShowStructure
     Effect <|-- EffectShow
-    Effect <|-- EffectGameOver
     Effect <|-- EffectSpawnEntity
 
     EffectSpawnEntity *-- Entity
@@ -110,7 +108,6 @@ classDiagram
     EffectMoveEntity *-- Direction
     EffectLoadLevel *-- Level
     EffectShowStructure *-- Structure
-    EffectGameOver *-- GameResult
     EffectShowMenu *-- Menu
 
     class EffectSpawnEntity {
@@ -133,10 +130,6 @@ classDiagram
     class EffectShow {
         +Int x
         +Int y
-    }
-
-    class EffectGameOver {
-        +GameResult result
     }
     
     class EffectShowMenu {
