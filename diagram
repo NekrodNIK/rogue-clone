@@ -67,6 +67,7 @@ classDiagram
 
     Player .. Inventory
     Inventory .. Item
+    Menu <|-- Inventory
     Item <|-- Weapon
     Item <|-- Armour
     Item <|-- Potion
@@ -110,7 +111,7 @@ classDiagram
     EffectLoadLevel *-- Level
     EffectShowStructure *-- Structure
     EffectGameOver *-- GameResult
-    EffectShowInventory *-- Inventory
+    EffectShowMenu *-- Menu
 
     class EffectSpawnEntity {
         +Entity entity
@@ -138,6 +139,6 @@ classDiagram
         +GameResult result
     }
     
-    class EffectShowInventory {
-        +Inventory inventory
+    class EffectShowMenu {
+        +Menu menu
     }
