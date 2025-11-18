@@ -38,8 +38,8 @@ classDiagram
     Structure <|-- Corridor
     Structure <|-- CompundStructure
     Structure <|-- StructureView
-    Level .. Structure
-    Level .. StructureView
+    Level *.. Structure
+    Level *.. StructureView
     Structure .. Entity
 
     Entity <|-- TickEntity
@@ -48,7 +48,7 @@ classDiagram
     Entity <|-- TileEntity
 
     TileEntity <|-- ItemEntity
-    ItemEntity .. Item
+    ItemEntity *.. Item
 
     TileEntity <|-- ExitEntity
     ExitEntity .. Level
@@ -86,6 +86,7 @@ classDiagram
 
     ActionMove *-- Direction
     ActionHit *-- Direction
+    ActionOpenInventory *.. Inventory
 
     class ActionMove {
         +Direction direction
