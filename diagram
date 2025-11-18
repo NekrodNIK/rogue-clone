@@ -82,11 +82,9 @@ classDiagram
     %% ACTIONS
     Action <|-- ActionMove
     Action <|-- ActionHit
-    Action <|-- ActionOpenInventory
 
     ActionMove *-- Direction
     ActionHit *-- Direction
-    ActionOpenInventory *.. Inventory
 
     class ActionMove {
         +Direction direction
