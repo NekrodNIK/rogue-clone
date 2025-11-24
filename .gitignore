@@ -1,1 +1,4 @@
 .metals/
+target/
+.bloop/
+project/.bloop/

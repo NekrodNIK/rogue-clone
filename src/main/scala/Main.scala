@@ -1,5 +1,10 @@
-@main def hello(): Unit =
-  println("Hello world!")
-  println(msg)
+import rogue.view
 
-def msg = "I was compiled by Scala 3. :)"
+@main def main(): Unit =
+  val term =
+    view.Term.setup match
+      case Some(term) => term
+      case None       => return
+
+  term.putString(10, 10, "Hello, rogue!")
+  while true do ()
