@@ -1,1 +1,4 @@
 .metals/
+target/
+.bsp/
+.bloop/
