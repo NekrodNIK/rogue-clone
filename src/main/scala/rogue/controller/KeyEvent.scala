@@ -12,8 +12,8 @@ object KeyEventParser {
     val result = (prev0, prev1, code) match
       case (0x1b, '[', 'C') => Some(KeyEvent.RightArrow)
       case (0x1b, '[', 'D') => Some(KeyEvent.LeftArrow)
-      case (0x1b, '[', 'A') => Some(KeyEvent.DownArrow)
-      case (0x1b, '[', 'B') => Some(KeyEvent.UpArrow)
+      case (0x1b, '[', 'B') => Some(KeyEvent.DownArrow)
+      case (0x1b, '[', 'A') => Some(KeyEvent.UpArrow)
       case _ => None
 
     prev0 = prev1

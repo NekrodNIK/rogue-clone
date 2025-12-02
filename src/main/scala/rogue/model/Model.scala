@@ -40,7 +40,7 @@ class Model(private val view: rogue.view.View) {
       case Direction.Left => Point(-1, 0)
       case Direction.UpLeft => Point(-1, -1)
     })
-    if level.contains(newPosition) || true then {
+    if level.contains(newPosition) then {
       player.position = newPosition
       view.updateEntityPosition(player.id, newPosition)
     }
