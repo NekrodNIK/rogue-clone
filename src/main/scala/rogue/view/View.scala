@@ -8,7 +8,7 @@ import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.HashMap
 
 enum Symbol(val char: Char, val color: String) {
-  case TopBottomEdge    extends Symbol('═', AnsiColor.BLINK + AnsiColor.YELLOW)
+  case TopBottomEdge    extends Symbol('═', AnsiColor.YELLOW)
   case LeftRightEdge   extends Symbol('║', AnsiColor.YELLOW)
   case TopLeftCorner extends Symbol('╔', AnsiColor.YELLOW)
   case TopRightCorner extends Symbol('╗', AnsiColor.YELLOW)

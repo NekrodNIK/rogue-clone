@@ -12,22 +12,20 @@ enum Direction:
 
 case class Corridor(points: Array[Point])
 
-class Model(private val controller: rogue.controller.Controller) {
-  private var isRunning: Boolean = true
+class Model(private val view: rogue.view.View) {
+  private val random = Random()
+  private var _isRunning: Boolean = true
   private val player: Player = Player(Point(0, 0), 0)
+
   private val level: Level = Level(80, 24)
-
-  def run(): Unit = {
-    val random = Random()
-    this.level.regenerate()
-    this.player.position = {
-      val room = level.rooms(random.nextInt(level.rooms.size))
-      Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x),
-        random.between(room.shape.topLeft.y, room.shape.bottomRight.y))
-    }
-
-    while this.isRunning do controller.tick
+  this.level.regenerate()
+  this.player.position = {
+    val room = level.rooms(random.nextInt(level.rooms.size))
+    Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x),
+      random.between(room.shape.topLeft.y, room.shape.bottomRight.y))
   }
+  
+  def isRunning: Boolean = _isRunning
   
   def movePlayer(direction: Direction): Unit = {
     val newPosition = player.position + (direction match {
@@ -40,6 +38,9 @@ class Model(private val controller: rogue.controller.Controller) {
       case Direction.Left => Point(-1, 0)
       case Direction.UpLeft => Point(-1, -1)
     })
-    if level.contains(newPosition) then player.position = newPosition
+    if level.contains(newPosition) then {
+      player.position = newPosition
+      view.updateEntityPosition(player.id, newPosition)
+    }
   }
 }
