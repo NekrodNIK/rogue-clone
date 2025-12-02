@@ -55,7 +55,7 @@ class View(private val terminal: Terminal) {
     entities.get(id) match
       // TODO: more types of restored symbols
       case Some(prev) =>
-        terminal.set(position.x, position.y, Symbol.RoomInner.str)
+        terminal.set(prev.x, prev.y, Symbol.RoomInner.str)
       case None => ()
 
     val symbol = Symbol.Player
