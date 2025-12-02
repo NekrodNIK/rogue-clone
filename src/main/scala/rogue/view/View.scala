@@ -33,10 +33,10 @@ class View(private val terminal: Terminal) {
     val it = Iterator(
       (room.shape.topEdge ++ room.shape.bottomEdge, Symbol.TopBottomEdge),
       (room.shape.leftEdge ++ room.shape.rightEdge, Symbol.LeftRightEdge),
-      (List(room.shape.topLeft), Symbol.TopLeftCorner),
-      (List(room.shape.topRight), Symbol.TopRightCorner),
-      (List(room.shape.bottomLeft), Symbol.BottomLeftCorner),
-      (List(room.shape.bottomRight), Symbol.BottomRightCorner),
+      (List(room.shape.topLeftCorner), Symbol.TopLeftCorner),
+      (List(room.shape.topRightCorner), Symbol.TopRightCorner),
+      (List(room.shape.bottomLeftCorner), Symbol.BottomLeftCorner),
+      (List(room.shape.bottomRightCorner), Symbol.BottomRightCorner),
       (room.shape.innerPoints, Symbol.RoomInner)
     )
 
