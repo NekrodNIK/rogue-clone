@@ -1,4 +1,5 @@
-package rogue.controller
+package controller
+
 import rogue.Terminal
 
 class Controller(private val terminal: Terminal, private val model: rogue.model.Model) {

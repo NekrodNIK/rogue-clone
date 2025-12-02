@@ -1,4 +1,4 @@
-package rogue.controller
+package controller
 
 enum KeyEvent(var callback: () => Unit = () => {}) {
   case RightArrow, LeftArrow, DownArrow, UpArrow

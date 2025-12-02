@@ -59,7 +59,7 @@ class View(private val terminal: Terminal) {
       case None => ()
 
     val symbol = entity.t match
-      case model.EntityType.Player => Symbol.Player
+      case model.TickEntityType.Player => Symbol.Player
 
     terminal.set(entity.position.x, entity.position.y, symbol.str)
     entities(entity.id) = entity

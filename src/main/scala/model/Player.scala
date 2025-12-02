@@ -1,5 +1,3 @@
 package model
-import model.TickEntity
 
-class Player(var position: Point) extends TickEntity {
-}
+class Player(var position: Point, val id: Int) extends TickEntity(position, id) {}

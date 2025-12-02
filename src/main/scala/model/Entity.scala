@@ -1,7 +1,6 @@
 package model
 
-import model.Point
-
-abstract class Entity {
-  val position: Point
-}
+abstract class Entity(
+  val position: Point,
+  val id: Int
+)

@@ -1,13 +1,12 @@
 package model
 
-import model.Room
-
 import scala.collection.mutable
 import scala.util.Random
 
 case class Level(width: Int, height: Int) {
   private val maxrooms: Int = 9
-  val rooms: mutable.ArraySeq[Room] = mutable.ArraySeq.fill(maxrooms)(Room(Point(0, 0), Point(0, 0)))
+  val rooms: mutable.ArraySeq[Room] = mutable.ArraySeq.fill(maxrooms)(null)
+  regenerate()
 
   def regenerate(): Unit = {
     val random = Random()
@@ -17,7 +16,7 @@ case class Level(width: Int, height: Int) {
       val size = Point(random.between(4, roomMaxSize.x), random.between(4, roomMaxSize.y))
       val topleft = Point(sector.x + random.between(1, roomMaxSize.x - size.x),
         sector.y + random.between(1, roomMaxSize.y - size.y))
-      rooms(i) = Room(topleft, topleft + size)
+      rooms(i) = Room(Rectangle(topleft, topleft + size))
     }
   }
 
