@@ -1,10 +1,11 @@
 package rogue.model
 
 case class Rectangle(topLeft: Point, bottomRight: Point) {
-  def topRight = Point(bottomRight.x, topLeft.y)
-
-  def bottomLeft = Point(topLeft.x, bottomRight.y)
-
+  def topRightCorner: Point = Point(bottomRight.x + 1, topLeft.y + 1)
+  def topLeftCorner: Point = Point(topLeft.x + 1, topLeft.y + 1)
+  def bottomRightCorner: Point = Point(bottomRight.x + 1, bottomRight.y + 1)
+  def bottomLeftCorner: Point = Point(topLeft.x + 1, bottomRight.y + 1)
+  
   def topEdge: Iterator[Point] =
     (topLeft.x + 1 until bottomRight.x).iterator.map(Point(_, topLeft.y - 1))
 
@@ -19,8 +20,8 @@ case class Rectangle(topLeft: Point, bottomRight: Point) {
 
   def innerPoints: Iterator[Point] =
     for
-      x <- (topLeft.x + 1 until bottomRight.x).iterator
-      y <- (topLeft.y + 1 until bottomRight.y).iterator
+      x <- (topLeft.x to bottomRight.x).iterator
+      y <- (topLeft.y to bottomRight.y).iterator
     yield Point(x, y)
 }
 
