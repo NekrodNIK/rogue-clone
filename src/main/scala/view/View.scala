@@ -4,7 +4,6 @@ import rogue.Terminal
 import rogue.model
 import scala.collection.mutable.Buffer
 import scala.io.AnsiColor
-import org.jline.jansi.Ansi
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.HashMap
 
