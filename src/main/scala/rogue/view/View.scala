@@ -27,7 +27,7 @@ class View(private val terminal: Terminal) {
   def height: Int = terminal.height
   def width: Int  = terminal.width
 
-  val entities = HashMap[Int, model.Entity]()
+  val entities = HashMap[Int, model.Point]()
 
   def renderRoom(room: model.Room) = {
     val it = Iterator(
@@ -51,11 +51,11 @@ class View(private val terminal: Terminal) {
       .foreach(p => terminal.set(p.x, p.y, Symbol.Corridor.str))
   }
 
-  def updateEntity(entity: model.Entity) = {
-    entities.get(entity.id) match
+  def updateEntityPosition(id: Int, position: model.Point) = {
+    entities.get(id) match
       // TODO: more types of restored symbols
       case Some(prev) =>
-        terminal.set(prev.position.x, prev.position.y, Symbol.RoomInner.str)
+        terminal.set(position.x, position.y, Symbol.RoomInner.str)
       case None => ()
 
     val symbol = entity.t match
