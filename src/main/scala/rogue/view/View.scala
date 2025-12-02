@@ -8,15 +8,16 @@ import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.HashMap
 
 enum Symbol(val char: Char, val color: String) {
-  case TopBottomEdge    extends Symbol('═', AnsiColor.YELLOW)
-  case LeftRightEdge   extends Symbol('║', AnsiColor.YELLOW)
-  case TopLeftCorner extends Symbol('╔', AnsiColor.YELLOW)
-  case TopRightCorner extends Symbol('╗', AnsiColor.YELLOW)
-  case BottomLeftCorner extends Symbol('╚', AnsiColor.YELLOW)
+  case TopBottomEdge     extends Symbol('═', AnsiColor.YELLOW)
+  case LeftRightEdge     extends Symbol('║', AnsiColor.YELLOW)
+  case TopLeftCorner     extends Symbol('╔', AnsiColor.YELLOW)
+  case TopRightCorner    extends Symbol('╗', AnsiColor.YELLOW)
+  case BottomLeftCorner  extends Symbol('╚', AnsiColor.YELLOW)
   case BottomRightCorner extends Symbol('╝', AnsiColor.YELLOW)
-  
-  case RoomInner  extends Symbol('.', AnsiColor.GREEN)
-  case Corridor   extends Symbol('█', AnsiColor.WHITE)
+  case Door              extends Symbol('╬', AnsiColor.YELLOW)
+
+  case RoomInner extends Symbol('.', AnsiColor.GREEN)
+  case Corridor  extends Symbol('█', AnsiColor.WHITE)
 
   case Player extends Symbol('@', AnsiColor.RED)
 
@@ -38,6 +39,7 @@ class View(private val terminal: Terminal) {
       (List(room.shape.bottomLeftCorner), Symbol.BottomLeftCorner),
       (List(room.shape.bottomRightCorner), Symbol.BottomRightCorner),
       (room.shape.innerPoints, Symbol.RoomInner)
+      (room.doors, Symbol.Door)
     )
 
     for
