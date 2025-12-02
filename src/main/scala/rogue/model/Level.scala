@@ -1,4 +1,4 @@
-package model
+package rogue.model
 
 import scala.collection.mutable
 import scala.util.Random

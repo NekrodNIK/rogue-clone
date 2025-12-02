@@ -1,4 +1,4 @@
-package model
+package rogue.model
 
 enum TickEntityType:
   case Player, Bat

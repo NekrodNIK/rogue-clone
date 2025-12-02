@@ -1,4 +1,4 @@
-package model
+package rogue.model
 
 abstract class Entity(
   val position: Point,

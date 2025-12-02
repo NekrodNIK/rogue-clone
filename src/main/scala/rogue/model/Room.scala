@@ -1,4 +1,4 @@
-package model
+package rogue.model
 
 case class Rectangle(topLeft: Point, bottomRight: Point) {
   def topRight = Point(bottomRight.x, topLeft.y)

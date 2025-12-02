@@ -1,4 +1,4 @@
-package model
+package rogue.model
 
 import scala.util.Random
 
@@ -12,7 +12,7 @@ enum Direction:
 
 case class Corridor(points: Array[Point])
 
-class Model {
+class Model(private val controller: rogue.controller.Controller) {
   private var isRunning: Boolean = true
   private val player: Player = Player(Point(0, 0), 0)
   private val level: Level = Level(80, 24)
@@ -26,9 +26,7 @@ class Model {
         random.between(room.shape.topLeft.y, room.shape.bottomRight.y))
     }
 
-    while (this.isRunning) {
-      // controller.tick
-    }
+    while this.isRunning do controller.tick
   }
   
   def movePlayer(direction: Direction): Unit = {
