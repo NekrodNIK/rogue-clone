@@ -24,7 +24,7 @@ class Model(private val view: rogue.view.View) {
     Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x),
       random.between(room.shape.topLeft.y, room.shape.bottomRight.y))
   }
-  view.renderRoom(level.rooms(0))
+  level.rooms.foreach(view.renderRoom)
   view.updateEntityPosition(0, player.position)
   
   def isRunning: Boolean = _isRunning

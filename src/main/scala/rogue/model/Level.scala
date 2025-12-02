@@ -4,7 +4,7 @@ import scala.collection.mutable
 import scala.util.Random
 
 case class Level(width: Int, height: Int) {
-  private val maxrooms: Int = 1
+  private val maxrooms: Int = 2
   val rooms: mutable.ArraySeq[Room] = mutable.ArraySeq.fill(maxrooms)(null)
   regenerate()
 
@@ -19,6 +19,7 @@ case class Level(width: Int, height: Int) {
 //      rooms(i) = Room(Rectangle(topleft, topleft + size))
 //    }
     rooms(0) = Room(Rectangle(Point(11, 11), Point(21, 21)), Iterable(Point(16, 22)))
+    rooms(1) = Room(Rectangle(Point(5, 24), Point(25, 30)), Iterable(Point(16, 23)))
   }
 
   def contains(point: Point): Boolean = rooms.exists(_.contains(point))
