@@ -1,6 +1,6 @@
 package rogue.model
 
-abstract class Entity(
-  val position: Point,
-  val id: Int
-)
+trait Entity {
+  def position: Point
+  def id: Int
+}

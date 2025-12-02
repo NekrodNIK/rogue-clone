@@ -18,12 +18,14 @@ class Model(private val view: rogue.view.View) {
   private val player: Player = Player(Point(0, 0), 0)
 
   private val level: Level = Level(80, 24)
-  this.level.regenerate()
-  this.player.position = {
+  level.regenerate()
+  player.position = {
     val room = level.rooms(random.nextInt(level.rooms.size))
     Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x),
       random.between(room.shape.topLeft.y, room.shape.bottomRight.y))
   }
+  view.renderRoom(level.rooms(0))
+  view.updateEntityPosition(0, player.position)
   
   def isRunning: Boolean = _isRunning
   
@@ -38,7 +40,7 @@ class Model(private val view: rogue.view.View) {
       case Direction.Left => Point(-1, 0)
       case Direction.UpLeft => Point(-1, -1)
     })
-    if level.contains(newPosition) then {
+    if level.contains(newPosition) || true then {
       player.position = newPosition
       view.updateEntityPosition(player.id, newPosition)
     }
