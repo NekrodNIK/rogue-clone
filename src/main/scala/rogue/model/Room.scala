@@ -6,16 +6,16 @@ case class Rectangle(topLeft: Point, bottomRight: Point) {
   def bottomLeft = Point(topLeft.x, bottomRight.y)
 
   def topEdge: Iterator[Point] =
-    (topLeft.x + 1 until bottomRight.x).iterator.map(Point(_, topLeft.y))
+    (topLeft.x + 1 until bottomRight.x).iterator.map(Point(_, topLeft.y - 1))
 
   def bottomEdge: Iterator[Point] =
-    (topLeft.x + 1 until bottomRight.x).iterator.map(Point(_, bottomRight.y))
+    (topLeft.x + 1 until bottomRight.x).iterator.map(Point(_, bottomRight.y + 1))
 
   def leftEdge: Iterator[Point] =
-    (topLeft.y + 1 until bottomRight.y).iterator.map(Point(topLeft.x, _))
+    (topLeft.y + 1 until bottomRight.y).iterator.map(Point(topLeft.x - 1, _))
 
   def rightEdge: Iterator[Point] =
-    (topLeft.y + 1 until bottomRight.y).iterator.map(Point(bottomRight.x, _))
+    (topLeft.y + 1 until bottomRight.y).iterator.map(Point(bottomRight.x + 1, _))
 
   def innerPoints: Iterator[Point] =
     for
