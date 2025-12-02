@@ -14,6 +14,7 @@ class Terminal(private val jlineTerminal: JlineTerminal):
     jlineTerminal.writer.write(str)
     jlineTerminal.puts(Capability.cursor_address, y, x)
     jlineTerminal.flush
+    jlineTerminal.puts(Capability.enter_am_mode)
   }
     
   def clear = {
@@ -37,6 +38,8 @@ object Terminal:
     val ca_mode_supported = jlineTerminal.puts(Capability.enter_ca_mode)
     val clear_screen_supported = jlineTerminal.puts(Capability.clear_screen)
     val cursor_address_supported = jlineTerminal.puts(Capability.cursor_address, 0, 0)
+
+    jlineTerminal.writer.write("\u001b[?1l")
 
     if ca_mode_supported && clear_screen_supported && cursor_address_supported
     then Some(new Terminal(jlineTerminal))
