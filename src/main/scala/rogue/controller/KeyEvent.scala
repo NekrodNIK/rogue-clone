@@ -14,7 +14,10 @@ object KeyEventParser {
       case (0x1b, '[', 'D') => Some(KeyEvent.LeftArrow)
       case (0x1b, '[', 'B') => Some(KeyEvent.DownArrow)
       case (0x1b, '[', 'A') => Some(KeyEvent.UpArrow)
-      case _ => None
+      case (_, _, code) => {
+        println(s"code: $code")
+        None
+      }
 
     prev0 = prev1
     prev1 = code
