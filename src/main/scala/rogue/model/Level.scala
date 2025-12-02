@@ -18,7 +18,7 @@ case class Level(width: Int, height: Int) {
 //        sector.y + random.between(1, roomMaxSize.y - size.y))
 //      rooms(i) = Room(Rectangle(topleft, topleft + size))
 //    }
-    rooms(0) = Room(Rectangle(Point(21, 21), Point(31, 31)))
+    rooms(0) = Room(Rectangle(Point(11, 11), Point(21, 21)), Iterable(Point(16, 22)))
   }
 
   def contains(point: Point): Boolean = rooms.exists(_.contains(point))
