@@ -38,7 +38,7 @@ class View(private val terminal: Terminal) {
       (List(room.shape.topRightCorner), Symbol.TopRightCorner),
       (List(room.shape.bottomLeftCorner), Symbol.BottomLeftCorner),
       (List(room.shape.bottomRightCorner), Symbol.BottomRightCorner),
-      (room.shape.innerPoints, Symbol.RoomInner)
+      (room.shape.innerPoints, Symbol.RoomInner),
       (room.doors, Symbol.Door)
     )
 
