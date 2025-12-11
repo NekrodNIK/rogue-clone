@@ -8,7 +8,7 @@ class Controller(private val terminal: Terminal, private val model: rogue.model.
   KeyEvent.UpArrow.callback = () => model.movePlayer(rogue.model.Direction.Up)
   KeyEvent.DownArrow.callback = () => model.movePlayer(rogue.model.Direction.Down)
   
-  def tick = {
+  def tick(): Unit = {
     KeyEventParser.parse(terminal.readKeyboard) match
       case Some(keyEvent) => keyEvent.callback()
       case None => ()

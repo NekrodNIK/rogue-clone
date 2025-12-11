@@ -9,7 +9,7 @@ package rogue
   val model = rogue.model.Model(view)
   val controller = rogue.controller.Controller(terminal, model)
 
-  while model.isRunning do controller.tick
+  while model.isRunning do controller.tick()
 
   
 

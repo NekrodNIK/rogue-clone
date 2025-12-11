@@ -10,23 +10,14 @@ case class Point(x: Int, y: Int) {
 enum Direction:
   case Up, Left, Right, Down, UpLeft, UpRight, DownLeft, DownRight
 
-case class Corridor(points: Array[Point])
-
 class Model(private val view: rogue.view.View) {
-  private val random = Random()
+  private val random = Random(0)
   private var _isRunning: Boolean = true
   private val player: Player = Player(Point(0, 0), 0)
+  private val level: Level = Level(80, 24, random)
+  newLevel()
 
-  private val level: Level = Level(80, 24)
-  level.regenerate()
-  player.position = {
-    val room = level.rooms(random.nextInt(level.rooms.size))
-    Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x),
-      random.between(room.shape.topLeft.y, room.shape.bottomRight.y))
-  }
-  level.rooms.foreach(view.renderRoom)
-  view.updateEntityPosition(0, player.position)
-  
+
   def isRunning: Boolean = _isRunning
   
   def movePlayer(direction: Direction): Unit = {
@@ -44,5 +35,17 @@ class Model(private val view: rogue.view.View) {
       player.position = newPosition
       view.updateEntityPosition(player.id, newPosition)
     }
+  }
+
+  private def newLevel(): Unit = {
+    level.regenerate()
+    player.position = {
+      val room = level.rooms(random.nextInt(level.rooms.size))
+      Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x),
+        random.between(room.shape.topLeft.y, room.shape.bottomRight.y))
+    }
+    level.rooms.foreach(view.renderRoom)
+    level.corridors.foreach(view.renderCorridor)
+    view.updateEntityPosition(0, player.position)
   }
 }
