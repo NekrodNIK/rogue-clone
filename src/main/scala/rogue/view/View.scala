@@ -1,68 +1,33 @@
 package rogue.view
 
-import rogue.Terminal
 import rogue.model
 import scala.collection.mutable.Buffer
 import scala.io.AnsiColor
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.HashMap
 
-enum Symbol(val char: Char, val color: String) {
-  case TopBottomEdge     extends Symbol('═', AnsiColor.YELLOW)
-  case LeftRightEdge     extends Symbol('║', AnsiColor.YELLOW)
-  case TopLeftCorner     extends Symbol('╔', AnsiColor.YELLOW)
-  case TopRightCorner    extends Symbol('╗', AnsiColor.YELLOW)
-  case BottomLeftCorner  extends Symbol('╚', AnsiColor.YELLOW)
-  case BottomRightCorner extends Symbol('╝', AnsiColor.YELLOW)
-  case Door              extends Symbol('╬', AnsiColor.YELLOW)
+enum Color {
+  case White, Red, Green, Blue, Yellow
 
-  case RoomInner extends Symbol('.', AnsiColor.GREEN)
-  case Corridor  extends Symbol('█', AnsiColor.WHITE)
-
-  case Player extends Symbol('@', AnsiColor.RED)
-
-  def str = color + char
+  def ansi_escape: String =
+    this match
+      case White  => AnsiColor.WHITE
+      case Red    => AnsiColor.RED
+      case Green  => AnsiColor.GREEN
+      case Blue   => AnsiColor.BLUE
+      case Yellow => AnsiColor.YELLOW
 }
 
-class View(private val terminal: Terminal) {
-  def height: Int = terminal.height
-  def width: Int  = terminal.width
-
-  val entities = HashMap[Int, model.Point]()
-
-  def renderRoom(room: model.Room) = {
-    val it = Iterator(
-      (room.shape.topEdge ++ room.shape.bottomEdge, Symbol.TopBottomEdge),
-      (room.shape.leftEdge ++ room.shape.rightEdge, Symbol.LeftRightEdge),
-      (List(room.shape.topLeftCorner), Symbol.TopLeftCorner),
-      (List(room.shape.topRightCorner), Symbol.TopRightCorner),
-      (List(room.shape.bottomLeftCorner), Symbol.BottomLeftCorner),
-      (List(room.shape.bottomRightCorner), Symbol.BottomRightCorner),
-      (room.shape.innerPoints, Symbol.RoomInner),
-      (room.doors, Symbol.Door)
-    )
-
-    for
-      (points, symbol) <- it
-      p                <- points
-    do terminal.set(p.x, p.y, symbol.str)
-  }
-
-  def renderCorridor(corridor: model.Corridor) = {
-    corridor.points
-      .foreach(p => terminal.set(p.x, p.y, Symbol.Corridor.str))
-  }
-
-  def updateEntityPosition(id: Int, position: model.Point) = {
-    entities.get(id) match
-      // TODO: more types of restored symbols
-      case Some(prev) =>
-        terminal.set(prev.x, prev.y, Symbol.RoomInner.str)
-      case None => ()
-
-    val symbol = Symbol.Player
-
-    terminal.set(position.x, position.y, symbol.str)
-    entities(id) = position
-  }
+enum Symbol(val char: Char, val color: Color) {
+  case Empty             extends Symbol(' ', Color.White)
+  case TopBottomEdge     extends Symbol('═', Color.Yellow)
+  case LeftRightEdge     extends Symbol('║', Color.Yellow)
+  case TopLeftCorner     extends Symbol('╔', Color.Yellow)
+  case TopRightCorner    extends Symbol('╗', Color.Yellow)
+  case BottomLeftCorner  extends Symbol('╚', Color.Yellow)
+  case BottomRightCorner extends Symbol('╝', Color.Yellow)
+  case Door              extends Symbol('╬', Color.Yellow)
+  case RoomInner         extends Symbol('.', Color.Green)
+  case Corridor          extends Symbol('█', Color.White)
+  case Player            extends Symbol('@', Color.Red)
 }

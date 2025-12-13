@@ -1,7 +1,10 @@
 package rogue.model
 
-import scala.util.Random
+import rogue.view.TickEntityView._
+import rogue.view.RoomView._
+import rogue.view.CorridorView._
 
+import scala.util.Random
 case class Point(x: Int, y: Int) {
   def +(other: Point) = Point(x + other.x, y + other.y)
   def -(other: Point) = Point(x - other.x, y - other.y)
@@ -10,7 +13,7 @@ case class Point(x: Int, y: Int) {
 enum Direction:
   case Up, Left, Right, Down, UpLeft, UpRight, DownLeft, DownRight
 
-class Model(private val view: rogue.view.View) {
+class Model {
   private val random = Random(0)
   private var _isRunning: Boolean = true
   private val player: Player = Player(Point(0, 0), 0)
@@ -33,7 +36,7 @@ class Model(private val view: rogue.view.View) {
     })
     if level.contains(newPosition) then {
       player.position = newPosition
-      view.updateEntityPosition(player.id, newPosition)
+      player.render
     }
   }
 
@@ -44,8 +47,8 @@ class Model(private val view: rogue.view.View) {
       Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x),
         random.between(room.shape.topLeft.y, room.shape.bottomRight.y))
     }
-    level.rooms.foreach(view.renderRoom)
-    level.corridors.foreach(view.renderCorridor)
-    view.updateEntityPosition(0, player.position)
+    level.rooms.foreach(_.render)
+    level.corridors.foreach(_.render)
+    player.render
   }
 }
