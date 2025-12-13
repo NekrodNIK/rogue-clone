@@ -30,4 +30,5 @@ enum Symbol(val char: Char, val color: Color) {
   case RoomInner         extends Symbol('.', Color.Green)
   case Corridor          extends Symbol('█', Color.White)
   case Player            extends Symbol('@', Color.Red)
+  case Bat               extends Symbol('B', Color.Red)
 }

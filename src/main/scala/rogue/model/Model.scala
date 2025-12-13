@@ -17,6 +17,7 @@ class Model {
   private val random = Random(0)
   private var _isRunning: Boolean = true
   private val player: Player = Player(Point(0, 0), 0)
+  private val staticBat: Bat = Bat(Point(0, 0), 1)
   private val level: Level = Level(80, 24, random)
   newLevel()
 
@@ -47,8 +48,14 @@ class Model {
       Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x),
         random.between(room.shape.topLeft.y, room.shape.bottomRight.y))
     }
+    staticBat.position = {
+      val room = level.rooms(random.nextInt(level.rooms.size))
+      Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x),
+        random.between(room.shape.topLeft.y, room.shape.bottomRight.y))
+    }
     level.rooms.foreach(_.render)
     level.corridors.foreach(_.render)
+    staticBat.render
     player.render
   }
 }

@@ -1,23 +1,31 @@
 package rogue.view
 import rogue.model
 import scala.collection.mutable.HashMap
-import scala.io.AnsiColor
 
 object TickEntityView {
-  val saved_points = HashMap[Int, (model.Point, Symbol)]()
+  private case class Meta (
+    pos: model.Point,
+    erased_symbol: Symbol,    
+  )
+  private val metadata = HashMap[Int, Meta]()
 
-  extension (tickEntity: model.TickEntity) {
+  extension (obj: model.TickEntity) {
     def render = {
       unrender
       
-      val symbol = Symbol.Player
-
-      saved_points(tickEntity.id) = (tickEntity.position, gameField.get(tickEntity.position.x, tickEntity.position.y))
-      gameField.set(tickEntity.position.x, tickEntity.position.y, symbol)
+      val symbol = obj match
+        case _ : model.Player => Symbol.Player
+        case _ : model.Bat => Symbol.Bat
+        case _ => Symbol.Door
+        
+      metadata(obj.id) = Meta(obj.position, gameField.get(obj.position.x, obj.position.y))
+      gameField.set(obj.position.x, obj.position.y, symbol)
     }
 
     def unrender = {
-      saved_points.get(tickEntity.id).foreach((p, s) => gameField.set(p.x, p.y, s))
+      metadata.get(obj.id).foreach{ case Meta(p, s) =>
+        gameField.set(p.x, p.y, s)
+      }
     }
   }
 }
