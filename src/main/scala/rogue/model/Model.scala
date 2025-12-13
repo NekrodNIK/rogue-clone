@@ -43,6 +43,10 @@ class Model {
 
   private def newLevel(): Unit = {
     level.regenerate()
+    view.gameField.clear
+    level.rooms.foreach(RoomView.render(_))
+    level.corridors.foreach(CorridorView.render(_))
+
     player.position = {
       val room = level.rooms(random.nextInt(level.rooms.size))
       Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x),
@@ -53,8 +57,6 @@ class Model {
       Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x),
         random.between(room.shape.topLeft.y, room.shape.bottomRight.y))
     }
-    level.rooms.foreach(_.render)
-    level.corridors.foreach(_.render)
     staticBat.render
     player.render
   }

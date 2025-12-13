@@ -25,7 +25,7 @@ case class Rectangle(topLeft: Point, bottomRight: Point) {
     yield Point(x, y)
 }
 
-case class Room(shape: Rectangle, doors: Iterable[Point]) {
+case class Room(shape: Rectangle, doors: Iterable[Point], nextLevelExit: Option[Point] = None) {
   def contains(point: Point): Boolean =
     (shape.topLeft.x <= point.x && point.x <= shape.bottomRight.x 
       && shape.topLeft.y <= point.y && point.y <= shape.bottomRight.y)
@@ -33,5 +33,5 @@ case class Room(shape: Rectangle, doors: Iterable[Point]) {
 }
 
 object Room {
-  val empty: Room = Room(Rectangle(Point(0, 0), Point(0, 0)), Nil)
+  val empty: Room = Room(Rectangle(Point(0, 0), Point(0, 0)), Nil, None)
 }

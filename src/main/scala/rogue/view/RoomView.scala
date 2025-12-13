@@ -9,12 +9,13 @@ object RoomView {
       (room.shape.bottomEdge, Symbol.TopBottomEdge),
       (room.shape.leftEdge, Symbol.LeftRightEdge),
       (room.shape.rightEdge, Symbol.LeftRightEdge),
-      (room.shape.innerPoints, Symbol.RoomInner),
       (List(room.shape.topLeftCorner), Symbol.TopLeftCorner),
       (List(room.shape.topRightCorner), Symbol.TopRightCorner),
       (List(room.shape.bottomLeftCorner), Symbol.BottomLeftCorner),
       (List(room.shape.bottomRightCorner), Symbol.BottomRightCorner),
       (room.doors, Symbol.Door),
+      (room.shape.innerPoints, Symbol.RoomInner),
+      (room.nextLevelExit, Symbol.NextLevel)
     ).flatMap((ps, s) => ps.map((_, s)))
 
     def render: Unit =
