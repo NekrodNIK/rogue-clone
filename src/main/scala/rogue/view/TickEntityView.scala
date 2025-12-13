@@ -6,6 +6,7 @@ object TickEntityView {
   private case class Meta (
     pos: model.Point,
     erased_symbol: Symbol,    
+    hidden: Boolean = true,
   )
   private val metadata = HashMap[Int, Meta]()
 
@@ -23,9 +24,14 @@ object TickEntityView {
     }
 
     def unrender = {
-      metadata.get(obj.id).foreach{ case Meta(p, s) =>
+      metadata.get(obj.id).foreach{ case Meta(p, s, _) =>
         gameField.set(p.x, p.y, s)
       }
+    }
+
+    def hidden = metadata.get(obj.id).map(_.hidden) match {
+      case Some(v) => v
+      case None => true
     }
   }
 }

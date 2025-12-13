@@ -1,8 +1,11 @@
 package rogue.view
 
 import rogue.model
+import scala.collection.mutable
 
 object RoomView {
+  private val hidden_map = mutable.Map[model.Room, Boolean]().withDefault(_ => true)
+  
   extension (room: model.Room)
     private def symbols = Iterator(
       (room.shape.topEdge, Symbol.TopBottomEdge),
@@ -18,10 +21,14 @@ object RoomView {
       (room.nextLevelExit, Symbol.NextLevel)
     ).flatMap((ps, s) => ps.map((_, s)))
 
-    def render: Unit =
+    def render =
+      hidden_map(room) = false
       symbols.foreach((p, s) => gameField.set(p.x, p.y, s))
   
-    def unrender: Unit =
+    def unrender =
+      hidden_map(room) = true
       symbols.foreach((p, _) => gameField.set(p.x, p.y, Symbol.Empty))
+
+    def hidden: Boolean = hidden_map(room)
 }
     

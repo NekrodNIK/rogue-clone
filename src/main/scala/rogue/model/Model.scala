@@ -43,9 +43,9 @@ class Model {
 
   private def newLevel(): Unit = {
     level.regenerate()
-    view.gameField.clear
-    level.rooms.foreach(RoomView.render(_))
-    level.corridors.foreach(CorridorView.render(_))
+    rogue.view.gameField.clear
+    level.rooms.foreach(_.render)
+    level.corridors.foreach(_.render)
 
     player.position = {
       val room = level.rooms(random.nextInt(level.rooms.size))
