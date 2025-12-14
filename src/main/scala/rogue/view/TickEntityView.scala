@@ -16,7 +16,7 @@ object TickEntityView {
       
       val symbol = obj match
         case _ : model.Player => Symbol.Player
-        case _ : model.Bat => Symbol.Bat
+        case _ : model.Monster => Symbol.Bat
         case _ => Symbol.Door
         
       metadata(obj.id) = Meta(obj.position, gameField.get(obj.position.x, obj.position.y))

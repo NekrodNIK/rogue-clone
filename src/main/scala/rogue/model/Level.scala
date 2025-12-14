@@ -3,8 +3,10 @@ package rogue.model
 import scala.collection.immutable.ListSet
 import scala.collection.mutable
 import scala.util.Random
+import rogue.model.Monster
+import rogue.model.MonsterType.Bat
 
-case class Corridor(points: ListSet[Point]) {
+case class Corridor(points: ListSet[Point]) extends Structure {
   def contains(point: Point): Boolean = points.contains(point)
 }
 
@@ -16,10 +18,13 @@ case class Level(width: Int, height: Int, random: Random) {
   private val maxrooms: Int                 = 9
   val rooms: mutable.ArraySeq[Room]         = mutable.ArraySeq.fill(maxrooms)(null)
   val corridors: mutable.ArraySeq[Corridor] = mutable.ArraySeq.fill(12)(Corridor(ListSet.empty))
+  val monsters: mutable.ListBuffer[Monster] = mutable.ListBuffer.empty
+  var floor: Int = 0
+  var id_cnt: Int = 1
   regenerate()
 
-  def contains(point: Point): Boolean =
-    rooms.exists(_.contains(point)) || corridors.exists(_.points.contains(point))
+  def contains(point: Point): Option[Structure] = 
+    (rooms.iterator ++ corridors.iterator).find(s => s.contains(point))
 
   def regenerate(): Unit = {
     regenerate_rooms()
@@ -33,6 +38,28 @@ case class Level(width: Int, height: Int, random: Random) {
       val size    = Point(random.between(4, sectorSize.x - 4 + 1), random.between(4, sectorSize.y - 4 + 1))
       val topleft = Point(sector.x + random.between(2, sectorSize.x - size.x - 1), sector.y + random.between(2, sectorSize.y - size.y - 1))
       rooms(i) = Room(Rectangle(topleft, topleft + size), List.empty)
+      fill_room(rooms(i))
+    }
+  }
+
+  private def fill_room(room: Room): Unit = {
+    val chance: Int = if random.nextBoolean() then {
+      room.tiles.addOne(Gold(random.nextInt(50 + 10 * floor) + 2,
+        Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x + 1),
+          random.between(room.shape.topLeft.y, room.shape.bottomRight.y + 1)),
+        id_cnt))
+      id_cnt += 1
+      80
+    } else 25
+    if random.nextInt(100) < chance then {
+      val monster = Monster(
+        Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x + 1),
+        random.between(room.shape.topLeft.y, room.shape.bottomRight.y + 1)),
+        id_cnt,
+        Bat
+      )
+      id_cnt += 1
+      monsters.addOne(monster)
     }
   }
 
