@@ -7,7 +7,7 @@ object RoomView {
   private val hidden_map = mutable.Map[model.Room, Boolean]().withDefault(_ => true)
   
   extension (room: model.Room)
-    private def symbols = Iterator(
+    private def symbols = (Iterator(
       (room.shape.topEdge, Symbol.TopBottomEdge),
       (room.shape.bottomEdge, Symbol.TopBottomEdge),
       (room.shape.leftEdge, Symbol.LeftRightEdge),
@@ -18,9 +18,12 @@ object RoomView {
       (List(room.shape.bottomRightCorner), Symbol.BottomRightCorner),
       (room.doors, Symbol.Door),
       (room.shape.innerPoints, Symbol.RoomInner),
-      (room.nextLevelExit, Symbol.NextLevel)
-    ).flatMap((ps, s) => ps.map((_, s)))
-
+      (room.nextLevelExit, Symbol.NextLevel),
+    ) ++ room.tiles.map {
+      case g: model.tiles.Gold => (List(g.position), Symbol.Gold)
+      case e: model.tiles.Exit => (List(e.position), Symbol.Exit)
+    }).flatMap((ps, s) => ps.map((_, s)))
+        
     def render =
       hidden_map(room) = false
       symbols.foreach((p, s) => gameField.set(p.x, p.y, s))
