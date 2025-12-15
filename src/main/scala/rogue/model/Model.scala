@@ -47,17 +47,20 @@ class Model {
       } else {
         if level.contains(player.position).get != structure then {
           structure match {
-            case r: Room     => if !r.renderObj.rendered then r.renderObj.render
-            case c: Corridor => if !c.renderObj.rendered then c.renderObj.render
+            case r: Room     => r.renderObj.render
+            case c: Corridor => c.renderObj.render
           }
         }
-        structure.tiles.zipWithIndex.collect({ case (g: Gold, i: Int) => (g, i) }).foreach(
-          (g, i) => {
+        structure.tiles
+          .zipWithIndex
+          .filter(_._1.isInstanceOf[Gold])
+          .map((t, i) => (t.asInstanceOf[Gold], i))
+          .filter((g, i) => g.position == newPosition)
+          .foreach((g, i) => {
             player.gold += g.amount
             structure.tiles.remove(i)
-            //todo g.unrender
-          }
-        )
+            g.renderObj.unrender
+          })
         level.monsters.filter(m => structure.contains(m.position)).foreach(_.renderObj.render)
         player.position = newPosition
       }
@@ -73,7 +76,7 @@ class Model {
     level.renderObj.unrender
     player.renderObj.reset
     player.renderObj.unrender
-    
+
     level.regenerate()
 
     player.position = {

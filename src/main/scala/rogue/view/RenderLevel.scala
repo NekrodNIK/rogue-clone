@@ -7,7 +7,7 @@ class RenderLevel(level: model.Level) extends RenderNode {
     val rooms = level.rooms.map(RenderRoom(_))
     val corridors = level.corridors.map(RenderCorridor(_))
     val entities = level.monsters.map(RenderTickEntity(_))
-    rooms ++ corridors  
+    rooms ++ corridors ++ entities 
 
   override def render = ()
 }
