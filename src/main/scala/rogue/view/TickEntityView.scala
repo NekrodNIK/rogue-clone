@@ -1,5 +1,7 @@
 package rogue.view
 import rogue.model
+import rogue.model.monsters.Bat
+
 import scala.collection.mutable.HashMap
 
 object TickEntityView {
@@ -16,7 +18,7 @@ object TickEntityView {
       
       val symbol = obj match
         case _ : model.Player => Symbol.Player
-        case _ : model.Monster => Symbol.Bat
+        case _ : Bat => Symbol.Bat
         case _ => Symbol.Door
         
       metadata(obj.id) = Meta(obj.position, gameField.get(obj.position.x, obj.position.y))

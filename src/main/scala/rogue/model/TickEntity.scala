@@ -1,9 +1,19 @@
 package rogue.model
 
 trait TickEntity extends Entity {
-  var max_hp: Int
   var hp: Int
-  var exp: Int
-  var lvl: Int
-  var ac: Int
+  def max_hp: Int
+  def exp: Int
+  def lvl: Int
+  def ac: Int
+  def dmg: Damage
+
+  def alive: Boolean = hp > 0
+
+  def attack(): Attack
+
+  def damage(attack: Attack): Unit = {
+    val damage = if attack.hit >= ac then attack.damage.roll() else 0
+    hp -= hp - damage
+  }
 }

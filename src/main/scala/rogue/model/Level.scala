@@ -1,10 +1,11 @@
 package rogue.model
 
+import rogue.model.monsters.{Bat, Monster}
+import rogue.model.tiles.{Exit, Gold}
+
 import scala.collection.immutable.ListSet
 import scala.collection.mutable
 import scala.util.Random
-import rogue.model.Monster
-import rogue.model.MonsterType.Bat
 
 case class Corridor(points: ListSet[Point]) extends Structure {
   def contains(point: Point): Boolean = points.contains(point)
@@ -27,6 +28,7 @@ case class Level(width: Int, height: Int, random: Random) {
     (rooms.iterator ++ corridors.iterator).find(s => s.contains(point))
 
   def regenerate(): Unit = {
+    monsters.clear()
     regenerate_rooms()
     regenerate_corridors()
   }
@@ -40,6 +42,12 @@ case class Level(width: Int, height: Int, random: Random) {
       rooms(i) = Room(Rectangle(topleft, topleft + size), List.empty)
       fill_room(rooms(i))
     }
+    val exit_room = rooms(random.nextInt(maxrooms))
+    exit_room.tiles.addOne(
+      Exit(Point(random.between(exit_room.shape.topLeft.x, exit_room.shape.bottomRight.x + 1),
+        random.between(exit_room.shape.topLeft.y, exit_room.shape.bottomRight.y + 1)), id_cnt)
+    )
+    id_cnt += 1
   }
 
   private def fill_room(room: Room): Unit = {
@@ -52,11 +60,10 @@ case class Level(width: Int, height: Int, random: Random) {
       80
     } else 25
     if random.nextInt(100) < chance then {
-      val monster = Monster(
+      val monster = Bat(
         Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x + 1),
-        random.between(room.shape.topLeft.y, room.shape.bottomRight.y + 1)),
-        id_cnt,
-        Bat
+          random.between(room.shape.topLeft.y, room.shape.bottomRight.y + 1)),
+        id_cnt, random
       )
       id_cnt += 1
       monsters.addOne(monster)
