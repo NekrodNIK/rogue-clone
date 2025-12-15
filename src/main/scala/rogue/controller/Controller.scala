@@ -5,6 +5,7 @@ class Controller(private val model: rogue.model.Model) {
   KeyEvent.RightArrow.callback = () => model.movePlayer(rogue.model.Direction.Right)
   KeyEvent.UpArrow.callback = () => model.movePlayer(rogue.model.Direction.Up)
   KeyEvent.DownArrow.callback = () => model.movePlayer(rogue.model.Direction.Down)
+  KeyEvent.RightAngleBracket.callback = () => model.descend()
   
   def tick(): Unit = {
     KeyEventParser.parse(rogue.terminal.reader.read) match

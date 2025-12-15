@@ -1,7 +1,7 @@
 package rogue.controller
 
 enum KeyEvent(var callback: () => Unit = () => {}) {
-  case RightArrow, LeftArrow, DownArrow, UpArrow, Right
+  case RightArrow, LeftArrow, DownArrow, UpArrow, Right, RightAngleBracket
 }
 
 object KeyEventParser {
@@ -14,7 +14,8 @@ object KeyEventParser {
       case (0x1b, '[' | 'O', 'D') => Some(KeyEvent.LeftArrow)
       case (0x1b, '[' | 'O', 'B') => Some(KeyEvent.DownArrow)
       case (0x1b, '[' | 'O', 'A') => Some(KeyEvent.UpArrow)
-      case _ => None
+      case (_, _, 0x3e)           => Some(KeyEvent.RightAngleBracket)
+      case _                      => None
 
     prev0 = prev1
     prev1 = code
