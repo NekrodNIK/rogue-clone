@@ -4,11 +4,9 @@ import rogue.model
 
 class RenderRoom(room: model.Room) extends RenderNode {
   def children =
-    val floor = room.shape.innerPoints.toSeq.map(RenderPoint(_, Symbol.RoomInner))
-    val tiles = room.tiles.map(RenderEntity(_))
-    floor ++ tiles
+    (points.map((p, s) => RenderPoint(p, s)) ++ room.tiles.map(_.renderObj)).toSeq
 
-  private def border =
+  private def points =
     val edges = Iterator(
       (room.shape.topEdge, Symbol.TopBottomEdge),
       (room.shape.bottomEdge, Symbol.TopBottomEdge),
@@ -20,16 +18,11 @@ class RenderRoom(room: model.Room) extends RenderNode {
       (room.shape.topLeftCorner, Symbol.TopLeftCorner),
       (room.shape.topRightCorner, Symbol.TopRightCorner),
       (room.shape.bottomLeftCorner, Symbol.BottomLeftCorner),
-      (room.shape.bottomRightCorner, Symbol.BottomRightCorner),
+      (room.shape.bottomRightCorner, Symbol.BottomRightCorner)
     )
 
+    val floor = room.shape.innerPoints.map((_, Symbol.RoomInner))
     val doors = room.doors.map((_, Symbol.Door))
 
-    edges ++ corners ++ doors
-
-  override protected def renderThis =
-    border.foreach((p, s) => gameField.set(p.x, p.y, s))
-
-  override protected def unrenderThis =
-    border.foreach((p, _) => gameField.set(p.x, p.y, Symbol.Empty))
+    floor ++ edges ++ corners ++ doors
 }
