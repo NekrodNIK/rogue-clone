@@ -2,7 +2,6 @@ package rogue.model
 
 import rogue.model.monsters.{Bat, Monster}
 import rogue.model.tiles.{Exit, Gold}
-import rogue.view.RoomView._
 
 import scala.collection.immutable.ListSet
 import scala.collection.mutable
@@ -40,7 +39,7 @@ case class Level(width: Int, height: Int, random: Random) {
       val sector  = Point(sectorSize.x * (i % 3), sectorSize.y * (i / 3))
       val size    = Point(random.between(4, sectorSize.x - 4 + 1), random.between(4, sectorSize.y - 4 + 1))
       val topleft = Point(sector.x + random.between(2, sectorSize.x - size.x - 1), sector.y + random.between(2, sectorSize.y - size.y - 1))
-      rooms(i) = Room(Rectangle(topleft, topleft + size), List.empty)
+      rooms(i) = Room(Rectangle(topleft, topleft + size))
       fill_room(rooms(i))
     }
     val exit_room = rooms(random.nextInt(maxrooms))
@@ -48,7 +47,6 @@ case class Level(width: Int, height: Int, random: Random) {
       Exit(Point(random.between(exit_room.shape.topLeft.x, exit_room.shape.bottomRight.x + 1),
         random.between(exit_room.shape.topLeft.y, exit_room.shape.bottomRight.y + 1)), id_cnt)
     )
-    exit_room.render
     id_cnt += 1
   }
 
@@ -157,8 +155,8 @@ case class Level(width: Int, height: Int, random: Random) {
       ).concat(
         for i <- turnSpot until endPoint.x yield Point(i, endPoint.y)
       )
-      rooms(room_from_i) = Room(room_from.shape, room_from.doors.concat(Iterable(startPoint)))
-      rooms(room_to_i) = Room(room_to.shape, room_to.doors.concat(Iterable(endPoint)))
+      rooms(room_from_i).doors.addOne(startPoint)
+      rooms(room_to_i).doors.addOne(endPoint)
       Corridor(ListSet.from(col))
     } else {
       val startPoint = Point(random.between(room_from.shape.topLeft.x + 1, room_from.shape.bottomRight.x), room_from.shape.bottomRight.y + 1)
@@ -173,8 +171,8 @@ case class Level(width: Int, height: Int, random: Random) {
         .concat(
           for i <- turnSpot until endPoint.y yield Point(endPoint.x, i)
         )
-      rooms(room_from_i) = Room(room_from.shape, room_from.doors.concat(Iterable(startPoint)))
-      rooms(room_to_i) = Room(room_to.shape, room_to.doors.concat(Iterable(endPoint)))
+      rooms(room_from_i).doors.addOne(startPoint)
+      rooms(room_to_i).doors.addOne(endPoint)
       Corridor(ListSet.from(col))
     }
   }

@@ -66,6 +66,10 @@ class Model {
   }
 
   private def newLevel(): Unit = {
+    level.monsters.foreach(_.unrender)
+    level.corridors.foreach(_.unrender)
+    level.rooms.foreach(_.unrender)
+
     rogue.view.gameField.clear
     level.regenerate()
 

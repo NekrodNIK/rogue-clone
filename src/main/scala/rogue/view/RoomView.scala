@@ -18,7 +18,6 @@ object RoomView {
       (List(room.shape.bottomRightCorner), Symbol.BottomRightCorner),
       (room.doors, Symbol.Door),
       (room.shape.innerPoints, Symbol.RoomInner),
-      (room.nextLevelExit, Symbol.NextLevel),
     ) ++ room.tiles.map {
       case g: model.tiles.Gold => (List(g.position), Symbol.Gold)
       case e: model.tiles.Exit => (List(e.position), Symbol.Exit)

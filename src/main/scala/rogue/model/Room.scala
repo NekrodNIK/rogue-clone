@@ -32,15 +32,16 @@ case class Rectangle(topLeft: Point, bottomRight: Point) {
     yield Point(x, y)
 }
 
-case class Room(shape: Rectangle, doors: Iterable[Point], nextLevelExit: Option[Point] = None) extends Structure {
+case class Room(shape: Rectangle) extends Structure {
+  val doors: mutable.ArrayBuffer[Point] = ArrayBuffer.empty
   override val tiles: mutable.ArrayBuffer[TileEntity] = ArrayBuffer.empty
   
   def contains(point: Point): Boolean =
     (shape.topLeft.x <= point.x && point.x <= shape.bottomRight.x 
       && shape.topLeft.y <= point.y && point.y <= shape.bottomRight.y)
-      || doors.exists(_ == point)
+      || doors.contains(point)
 }
 
 object Room {
-  val empty: Room = Room(Rectangle(Point(0, 0), Point(0, 0)), Nil, None)
+  val empty: Room = Room(Rectangle(Point(0, 0), Point(0, 0)))
 }
