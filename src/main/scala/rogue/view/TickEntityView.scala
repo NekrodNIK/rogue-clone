@@ -25,6 +25,10 @@ object TickEntityView {
       gameField.set(obj.position.x, obj.position.y, symbol)
     }
 
+    def render_reload: Unit = {
+      metadata.remove(obj.id)
+    }
+
     def unrender = {
       metadata.get(obj.id).foreach{ case Meta(p, s, _) =>
         gameField.set(p.x, p.y, s)

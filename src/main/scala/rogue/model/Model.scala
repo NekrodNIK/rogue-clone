@@ -71,6 +71,7 @@ class Model {
     level.rooms.foreach(_.unrender)
 
     rogue.view.gameField.clear
+    player.render_reload
     level.regenerate()
 
     player.position = {
