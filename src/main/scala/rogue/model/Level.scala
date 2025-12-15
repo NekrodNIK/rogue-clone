@@ -2,12 +2,15 @@ package rogue.model
 
 import rogue.model.monsters.{Bat, Monster}
 import rogue.model.tiles.{Exit, Gold}
+import rogue.view
 
 import scala.collection.immutable.ListSet
 import scala.collection.mutable
 import scala.util.Random
 
-case class Corridor(points: ListSet[Point]) extends Structure {
+case class Corridor(points: ListSet[Point]) extends Structure, view.Renderable {
+  override val renderObj = view.RenderCorridor(this)
+  
   def contains(point: Point): Boolean = points.contains(point)
 }
 
@@ -15,7 +18,9 @@ object Corridor {
   val empty: Corridor = Corridor(ListSet.empty)
 }
 
-case class Level(width: Int, height: Int, random: Random) {
+case class Level(width: Int, height: Int, random: Random) extends view.Renderable {  
+  override val renderObj = view.RenderLevel(this)
+  
   private val maxrooms: Int                 = 9
   val rooms: mutable.ArraySeq[Room]         = mutable.ArraySeq.fill(maxrooms)(null)
   val corridors: mutable.ArraySeq[Corridor] = mutable.ArraySeq.fill(12)(Corridor(ListSet.empty))

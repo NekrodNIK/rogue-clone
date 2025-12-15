@@ -1,9 +1,6 @@
 package rogue.model
 
 import rogue.model.tiles.*
-import rogue.view.CorridorView.*
-import rogue.view.RoomView.*
-import rogue.view.TickEntityView.*
 
 import scala.util.Random
 case class Point(x: Int, y: Int) {
@@ -45,13 +42,13 @@ class Model {
       if hit.nonEmpty then {
         hit.foreach((m, i) => {
           m.damage(player.attack())
-          if !m.alive then { level.monsters.remove(i); m.unrender }
+          if !m.alive then { level.monsters.remove(i); m.renderObj.unrender }
         })
       } else {
         if level.contains(player.position).get != structure then {
           structure match {
-            case r: Room     => r.render
-            case c: Corridor => c.render
+            case r: Room     => if !r.renderObj.rendered then r.renderObj.render
+            case c: Corridor => if !c.renderObj.rendered then c.renderObj.render
           }
         }
         structure.tiles.zipWithIndex.collect({ case (g: Gold, i: Int) => (g, i) }).foreach(
@@ -61,10 +58,10 @@ class Model {
             //todo g.unrender
           }
         )
-        level.monsters.filter(m => structure.contains(m.position)).foreach(_.render)
+        level.monsters.filter(m => structure.contains(m.position)).foreach(_.renderObj.render)
         player.position = newPosition
       }
-      player.render
+      player.renderObj.render
     }
   }
 
@@ -73,20 +70,19 @@ class Model {
   }
 
   private def newLevel(): Unit = {
-    level.monsters.foreach(_.unrender)
-    level.corridors.foreach(_.unrender)
-    level.rooms.foreach(_.unrender)
-
-    rogue.view.gameField.clear
-    player.render_reload
+    level.renderObj.unrender
+    player.renderObj.reset
+    player.renderObj.unrender
+    
     level.regenerate()
 
     player.position = {
       val room = level.rooms(random.nextInt(level.rooms.size))
-      room.render
-      level.monsters.filter(m => room.contains(m.position)).foreach(_.render)
+      room.renderObj.render
+      level.monsters.filter(m => room.contains(m.position)).foreach(_.renderObj.render)
       Point(random.between(room.shape.topLeft.x, room.shape.bottomRight.x), random.between(room.shape.topLeft.y, room.shape.bottomRight.y))
     }
-    player.render
+
+    player.renderObj.render
   }
 }

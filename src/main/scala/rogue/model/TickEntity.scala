@@ -1,6 +1,10 @@
 package rogue.model
 
+import rogue.view
+
 trait TickEntity extends Entity {
+  override val renderObj = view.RenderTickEntity(this)
+  
   var hp: Int
   def max_hp: Int
   def exp: Int

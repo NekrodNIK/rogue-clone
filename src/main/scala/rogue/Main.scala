@@ -19,7 +19,7 @@ val terminal =
   terminal.puts(Capability.cursor_address, 0, 0)
 
   val model = rogue.model.Model()
-  val controller = rogue.controller.Controller(model)
+  val controller = rogue.controller.Controller(terminal.reader.read)
 
   Iterator(
     (KeyEvent.LeftArrow, () => model.movePlayer(rogue.model.Direction.Left)),

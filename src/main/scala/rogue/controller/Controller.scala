@@ -2,7 +2,7 @@ package rogue.controller
 
 import scala.collection.mutable
 
-class Controller(private val model: rogue.model.Model) {
+class Controller(read: () => Int) {
   private val callbacks = mutable.HashMap[KeyEvent, () => Unit]().withDefaultValue(() => {})
 
   def set_callback(event: KeyEvent, f: () => Unit) = {
@@ -10,7 +10,7 @@ class Controller(private val model: rogue.model.Model) {
   }
 
   def tick(): Unit = {
-    KeyEventParser.parse(rogue.terminal.reader.read) match
+    KeyEventParser.parse(read()) match
       case Some(keyEvent) => callbacks(keyEvent)()
       case None           => ()
   }

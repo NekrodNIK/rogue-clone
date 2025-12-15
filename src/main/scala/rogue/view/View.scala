@@ -35,3 +35,35 @@ enum Symbol(val char: Char, val color: Color) {
   case Gold              extends Symbol('₽', Color.Yellow)
   case Exit              extends Symbol('%', Color.Cyan)
 }
+
+trait Renderable {
+  def renderObj: RenderNode
+}
+
+trait RenderNode {
+  def children: Iterable[RenderNode]
+  protected def renderThis: Unit = ()
+  protected def unrenderThis: Unit = ()
+
+  def rendered: Boolean = _rendered
+  private var _rendered = false
+  
+  def reset: Unit = ()
+
+  def render: Unit = {
+    _rendered = true
+    renderThis
+    children.foreach(_.render)
+  }
+
+  def unrender: Unit = {
+    _rendered = false
+    unrenderThis
+    children.foreach(_.unrender)  
+  }
+}
+
+trait RenderLeaf extends RenderNode {
+  override def children = Nil
+}
+
