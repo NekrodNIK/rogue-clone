@@ -53,6 +53,7 @@ class Model {
             case c: Corridor => c.render
           }
         }
+//        structure.tiles.collect(case t: Gold => t)
         level.monsters.filter(m => structure.contains(m.position)).foreach(_.render)
         player.position = newPosition
       }
@@ -61,12 +62,12 @@ class Model {
   }
 
   def descend(): Unit = {
-    if level.rooms.filter(_.contains(player.position)).map(_.tiles.exists(t => t.position == player.position)).nonEmpty then newLevel()
+    if level.rooms.filter(_.contains(player.position)).exists(_.tiles.exists(t => t.position == player.position)) then newLevel()
   }
 
   private def newLevel(): Unit = {
-    level.regenerate()
     rogue.view.gameField.clear
+    level.regenerate()
 
     player.position = {
       val room = level.rooms(random.nextInt(level.rooms.size))

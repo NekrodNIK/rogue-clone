@@ -2,6 +2,7 @@ package rogue.model
 
 import rogue.model.monsters.{Bat, Monster}
 import rogue.model.tiles.{Exit, Gold}
+import rogue.view.RoomView._
 
 import scala.collection.immutable.ListSet
 import scala.collection.mutable
@@ -47,6 +48,7 @@ case class Level(width: Int, height: Int, random: Random) {
       Exit(Point(random.between(exit_room.shape.topLeft.x, exit_room.shape.bottomRight.x + 1),
         random.between(exit_room.shape.topLeft.y, exit_room.shape.bottomRight.y + 1)), id_cnt)
     )
+    exit_room.render
     id_cnt += 1
   }
 

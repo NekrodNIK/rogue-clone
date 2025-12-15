@@ -33,7 +33,7 @@ case class Rectangle(topLeft: Point, bottomRight: Point) {
 }
 
 case class Room(shape: Rectangle, doors: Iterable[Point], nextLevelExit: Option[Point] = None) extends Structure {
-  val tiles: mutable.ArrayBuffer[TileEntity] = ArrayBuffer.empty
+  override val tiles: mutable.ArrayBuffer[TileEntity] = ArrayBuffer.empty
   
   def contains(point: Point): Boolean =
     (shape.topLeft.x <= point.x && point.x <= shape.bottomRight.x 
