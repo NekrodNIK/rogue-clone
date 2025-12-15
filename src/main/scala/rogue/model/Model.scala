@@ -1,5 +1,6 @@
 package rogue.model
 
+import rogue.model.tiles.*
 import rogue.view.CorridorView.*
 import rogue.view.RoomView.*
 import rogue.view.TickEntityView.*
@@ -53,7 +54,13 @@ class Model {
             case c: Corridor => c.render
           }
         }
-//        structure.tiles.collect(case t: Gold => t)
+        structure.tiles.zipWithIndex.collect({ case (g: Gold, i: Int) => (g, i) }).foreach(
+          (g, i) => {
+            player.gold += g.amount
+            structure.tiles.remove(i)
+            //todo g.unrender
+          }
+        )
         level.monsters.filter(m => structure.contains(m.position)).foreach(_.render)
         player.position = newPosition
       }
@@ -62,7 +69,7 @@ class Model {
   }
 
   def descend(): Unit = {
-    if level.rooms.filter(_.contains(player.position)).exists(_.tiles.exists(t => t.position == player.position)) then newLevel()
+    if level.rooms.filter(_.contains(player.position)).exists(_.tiles.collect({ case e: Exit => e }).exists(t => t.position == player.position)) then newLevel()
   }
 
   private def newLevel(): Unit = {
