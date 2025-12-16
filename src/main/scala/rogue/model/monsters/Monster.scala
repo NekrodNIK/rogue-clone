@@ -16,5 +16,5 @@ case class Bat(
                 var position: Point,
                 override val id: Int,
                 random: Random)
-  extends Monster(random.nextInt(8), Damage(1, 1, random), 7, 0, 15) {
+  extends Monster(random.nextInt(8), Damage(4, 1, random), 7, 0, 15) {
 }

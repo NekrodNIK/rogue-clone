@@ -13,8 +13,8 @@ enum Direction:
   case Up, Left, Right, Down, UpLeft, UpRight, DownLeft, DownRight
 
 class Model {
-  private val random              = Random(1)
-  private val player: Player      = Player(Point(0, 0), 0, 100, 100, 0, 1, 10, random)
+  private val random              = Random(0)
+  private val player: Player      = Player(Point(0, 0), 0, 10, 10, 0, 1, 10, random)
   private val level: Level        = Level(player, 80, 24, random)
   private var _isRunning: Boolean = true
   newLevel()
@@ -43,7 +43,7 @@ class Model {
       if hit.nonEmpty then {
         hit.foreach((m, i) => {
           m.damage(player.attack())
-          if !m.alive then { level.monsters.remove(i); m.renderObj.unrender }
+          if !m.alive then { level.monsters.remove(i); m.renderObj.unrender; player.hp = player.max_hp}
         })
       } else {
         val currentStructure = level.contains(player.position).get
@@ -92,12 +92,12 @@ class Model {
           m.position = newPos
           m.renderObj.render
         }
-//        else if newPos == player.position then {
-//          player.damage(m.attack())
-//          if player.hp <= 0 then {player.renderObj.unrender; gameOver()}
-//          player.renderObj.render
-//          level.renderObj.statusWidget.render
-//        }
+        else if newPos == player.position then {
+          player.damage(m.attack())
+          if !player.alive then {player.renderObj.unrender; gameOver()}
+          player.renderObj.render
+          level.renderObj.statusWidget.render
+        }
       }
     )
   }

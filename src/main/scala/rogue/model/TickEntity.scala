@@ -18,6 +18,6 @@ trait TickEntity extends Entity {
 
   def damage(attack: Attack): Unit = {
     val damage = if attack.hit >= ac then attack.damage.roll() else 0
-    hp -= hp - damage
+    hp -= damage
   }
 }
