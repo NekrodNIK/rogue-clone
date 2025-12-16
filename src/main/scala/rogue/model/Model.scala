@@ -91,6 +91,7 @@ class Model {
         if player_structure.exists(_.contains(newPos)) && isFree(newPos) then {
           m.position = newPos
           m.renderObj.render
+          player.renderObj.render
         }
         else if newPos == player.position then {
           player.damage(m.attack())
