@@ -18,8 +18,8 @@ object Corridor {
   val empty: Corridor = Corridor(ListSet.empty)
 }
 
-case class Level(width: Int, height: Int, random: Random) extends view.Renderable {  
-  override val renderObj = view.RenderLevel(this)
+case class Level(player: Player, width: Int, height: Int, random: Random) extends view.Renderable {  
+  override val renderObj: view.RenderLevel = view.RenderLevel(player, this)
   
   private val maxrooms: Int                 = 9
   val rooms: mutable.ArraySeq[Room]         = mutable.ArraySeq.fill(maxrooms)(null)

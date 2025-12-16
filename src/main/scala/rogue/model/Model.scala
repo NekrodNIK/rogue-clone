@@ -3,6 +3,7 @@ package rogue.model
 import rogue.model.tiles.*
 
 import scala.util.Random
+import scala.collection.mutable.ArrayBuffer
 case class Point(x: Int, y: Int) {
   def +(other: Point) = Point(x + other.x, y + other.y)
   def -(other: Point) = Point(x - other.x, y - other.y)
@@ -12,9 +13,9 @@ enum Direction:
   case Up, Left, Right, Down, UpLeft, UpRight, DownLeft, DownRight
 
 class Model {
-  private val random              = Random(0)
+  private val random              = Random(1)
   private val player: Player      = Player(Point(0, 0), 0, 10, 10, 0, 1, 10, random)
-  private val level: Level        = Level(80, 24, random)
+  private val level: Level        = Level(player, 80, 24, random)
   private var _isRunning: Boolean = true
   newLevel()
 
@@ -51,6 +52,8 @@ class Model {
             case c: Corridor => c.renderObj.render
           }
         }
+
+        val shouldRemove = ArrayBuffer[Int]()
         structure.tiles
           .zipWithIndex
           .filter(_._1.isInstanceOf[Gold])
@@ -58,9 +61,12 @@ class Model {
           .filter((g, i) => g.position == newPosition)
           .foreach((g, i) => {
             player.gold += g.amount
-            structure.tiles.remove(i)
+            shouldRemove += i
             g.renderObj.unrender
+            level.renderObj.statusWidget.unrender
+            level.renderObj.statusWidget.render
           })
+        shouldRemove.foreach(structure.tiles.remove(_))
         level.monsters.filter(m => structure.contains(m.position)).foreach(_.renderObj.render)
         player.position = newPosition
       }
@@ -78,6 +84,7 @@ class Model {
     player.renderObj.unrender
 
     level.regenerate()
+    level.renderObj.render
 
     player.position = {
       val room = level.rooms(random.nextInt(level.rooms.size))

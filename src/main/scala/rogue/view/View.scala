@@ -20,20 +20,21 @@ enum Color {
 }
 
 enum Symbol(val char: Char, val color: Color) {
-  case Empty             extends Symbol(' ', Color.White)
-  case TopBottomEdge     extends Symbol('═', Color.Yellow)
-  case LeftRightEdge     extends Symbol('║', Color.Yellow)
-  case TopLeftCorner     extends Symbol('╔', Color.Yellow)
-  case TopRightCorner    extends Symbol('╗', Color.Yellow)
-  case BottomLeftCorner  extends Symbol('╚', Color.Yellow)
-  case BottomRightCorner extends Symbol('╝', Color.Yellow)
-  case Door              extends Symbol('╬', Color.Yellow)
-  case RoomInner         extends Symbol('.', Color.Green)
-  case Corridor          extends Symbol('█', Color.White)
-  case Player            extends Symbol('@', Color.Red)
-  case Bat               extends Symbol('B', Color.Red)
-  case Gold              extends Symbol('₽', Color.Yellow)
-  case Exit              extends Symbol('%', Color.Cyan)
+  case Empty                 extends Symbol(' ', Color.White)
+  case TopBottomEdge         extends Symbol('═', Color.Yellow)
+  case LeftRightEdge         extends Symbol('║', Color.Yellow)
+  case TopLeftCorner         extends Symbol('╔', Color.Yellow)
+  case TopRightCorner        extends Symbol('╗', Color.Yellow)
+  case BottomLeftCorner      extends Symbol('╚', Color.Yellow)
+  case BottomRightCorner     extends Symbol('╝', Color.Yellow)
+  case Door                  extends Symbol('╬', Color.Yellow)
+  case RoomInner             extends Symbol('.', Color.Green)
+  case Corridor              extends Symbol('█', Color.White)
+  case Player                extends Symbol('@', Color.Red)
+  case Bat                   extends Symbol('B', Color.Red)
+  case Gold                  extends Symbol('₽', Color.Yellow)
+  case Exit                  extends Symbol('%', Color.Cyan)
+  case Any(override val char: Char)   extends Symbol(char, Color.White)
 }
 
 trait Renderable {
@@ -42,12 +43,12 @@ trait Renderable {
 
 trait RenderNode {
   def children: Iterable[RenderNode]
-  protected def renderThis: Unit = ()
+  protected def renderThis: Unit   = ()
   protected def unrenderThis: Unit = ()
 
   def rendered: Boolean = _rendered
   private var _rendered = false
-  
+
   def reset: Unit = ()
 
   def render: Unit = {
@@ -59,11 +60,10 @@ trait RenderNode {
   def unrender: Unit = {
     _rendered = false
     unrenderThis
-    children.foreach(_.unrender)  
+    children.foreach(_.unrender)
   }
 }
 
 trait RenderLeaf extends RenderNode {
   override def children = Nil
 }
-
