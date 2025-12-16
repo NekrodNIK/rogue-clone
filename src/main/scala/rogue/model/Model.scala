@@ -13,7 +13,7 @@ enum Direction:
   case Up, Left, Right, Down, UpLeft, UpRight, DownLeft, DownRight
 
 class Model {
-  private val random              = Random(1)
+  private val random              = Random(0)
   private val player: Player      = Player(Point(0, 0), 0, 100, 100, 0, 1, 10, random)
   private val level: Level        = Level(player, 80, 24, random)
   private var _isRunning: Boolean = true
@@ -91,6 +91,7 @@ class Model {
         if player_structure.exists(_.contains(newPos)) && isFree(newPos) then {
           m.position = newPos
           m.renderObj.render
+          player.renderObj.render
         }
 //        else if newPos == player.position then {
 //          player.damage(m.attack())
