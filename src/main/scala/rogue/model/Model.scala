@@ -41,10 +41,16 @@ class Model {
       val structure = structureO.get
       val hit       = level.monsters.zipWithIndex.filter((m, i) => m.position == newPosition)
       if hit.nonEmpty then {
+        val shouldRemove = ArrayBuffer[Int]()
         hit.foreach((m, i) => {
           m.damage(player.attack())
-          if !m.alive then { level.monsters.remove(i); m.renderObj.unrender; player.hp = player.max_hp}
+          if !m.alive then {
+            shouldRemove.addOne(i); m.renderObj.unrender
+            player.hp = player.max_hp
+            level.renderObj.statusWidget.unrender
+            level.renderObj.statusWidget.render}
         })
+        level.monsters = level.monsters.zipWithIndex.filterNot((m, i) => shouldRemove.contains(i)).map(_._1)
       } else {
         val currentStructure = level.contains(player.position).get
         if currentStructure != structure then {
@@ -68,7 +74,7 @@ class Model {
             level.renderObj.statusWidget.unrender
             level.renderObj.statusWidget.render
           })
-        shouldRemove.foreach(structure.tiles.remove(_))
+        structure.tiles = structure.tiles.zipWithIndex.filterNot((t, i) => shouldRemove.contains(i)).map(_._1)
         level.monsters.filter(m => structure.contains(m.position)).foreach(_.renderObj.render)
         player.position = newPosition
       }

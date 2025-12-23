@@ -37,7 +37,7 @@ case class Room(shape: Rectangle) extends Structure, view.Renderable {
   override val renderObj = view.RenderRoom(this)
   
   val doors: mutable.ArrayBuffer[Point] = ArrayBuffer.empty
-  override val tiles: mutable.ArrayBuffer[TileEntity] = ArrayBuffer.empty
+//  var tiles: mutable.ArrayBuffer[TileEntity] = ArrayBuffer.empty
   
   def contains(point: Point): Boolean =
     (shape.topLeft.x <= point.x && point.x <= shape.bottomRight.x 

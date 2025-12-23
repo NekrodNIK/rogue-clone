@@ -24,7 +24,7 @@ case class Level(player: Player, width: Int, height: Int, random: Random) extend
   private val maxrooms: Int                 = 9
   val rooms: mutable.ArraySeq[Room]         = mutable.ArraySeq.fill(maxrooms)(null)
   val corridors: mutable.ArraySeq[Corridor] = mutable.ArraySeq.fill(12)(Corridor(ListSet.empty))
-  val monsters: mutable.ListBuffer[Monster] = mutable.ListBuffer.empty
+  var monsters: mutable.ListBuffer[Monster] = mutable.ListBuffer.empty
   var floor: Int = 0
   var id_cnt: Int = 1
   regenerate()
